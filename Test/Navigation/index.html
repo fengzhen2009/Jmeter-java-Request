@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>menu</title>
+
+<link rel="stylesheet" href="css/style.css" media="screen"
+	type="text/css" />
+
+</head>
+
+
+<body>
+	<nav class="main-menu">
+
+		<div class="logo"></div>
+		<div class="settings"></div>
+
+		<ul>
+
+			<li><a href="http://startific.com"> <i
+					class="fa fa-home fa-lg"></i> <span class="nav-text">Home</span>
+
+			</a></li>
+
+			<li class="has-subnav"><a href="#"> <i
+					class="fa fa-clock-o fa-lg"></i> <span class="nav-text">
+						News </span>
+			</a></li>
+
+			<li><a href="#"> <i class="fa fa-desktop fa-lg"></i> <span
+					class="nav-text"> Technology </span>
+			</a></li>
+			<li><a href="#"> <i class="fa fa-shopping-cart"></i> <span
+					class="nav-text"> Shopping </span>
+			</a></li>
+			<li><a href="#"> <i class="fa fa-microphone fa-lg"></i> <span
+					class="nav-text"> Film & Music </span>
+			</a></li>
+			<li><a href="#"> <i class="fa fa-flask fa-lg"></i> <span
+					class="nav-text"> Web Tools </span>
+			</a></li>
+
+			<li><a href="#"> <i class="fa fa-picture-o fa-lg"></i> <span
+					class="nav-text"> Art & Design </span>
+			</a></li>
+			<li><a href="#"> <i class="fa fa-align-left fa-lg"></i> <span
+					class="nav-text"> Magazines </span>
+			</a></li>
+			<li><a href="#"> <i class="fa fa-glass fa-lg"></i> <span
+					class="nav-text"> Life & Style </span>
+			</a></li>
+			<li class="has-subnav"><a href="#"> <i
+					class="fa fa-rocket fa-lg"></i> <span class="nav-text"> Fun
+				</span>
+			</a></li>
+		</ul>
+
+		<ul class="logout">
+			<li><a href="#"> <i class="fa fa-lightbulb-o fa-lg"></i> <span
+					class="nav-text"> 联系我们 </span>
+
+			</a></li>
+		</ul>
+	</nav>
+	<center>
+		<?php  include '../news/menu.php';//导入导航栏?>
+		<h3>浏览新闻</h3>
+		<table width="800" border="1">
+			<tr>
+				<th>新闻id</th>
+				<th>新闻标题</th>
+				<th>关键字</th>
+				<th>作者</th>
+				<th>发布时间</th>
+				<th>新闻内容</th>
+				<th>操作</th>
+			</tr>
+			<?php 
+					//1、导入配置文件
+					require ("../news/dbconfig.php");
+			
+					//2、连接MySql，先择数据库
+					$link = @mysql_connect(HOST,USER,PASS) or die("数据库连接失败");
+					mysql_select_db(DBNAME,$link);
+			
+					//3、执行查询，并返回结果集
+					$sql = "select * from news order by addtime desc";
+					$result = mysql_query($sql,$link);
+			
+					//4、解析结果集,并遍历输出
+					while ($row = mysql_fetch_assoc($result)){
+						echo "<tr>";
+						echo "<td>{$row['id']}</td>";
+						echo "<td>{$row['title']}</td>";
+						echo "<td>{$row['keywords']}</td>";
+						echo "<td>{$row['author']}</td>";
+						echo "<td>".date("Y-m-d",$row['addtime'])."</td>";
+						echo "<td>{$row['content']}</td>";
+						echo "<td>
+						<a href='javascript:dodel({$row['id']})'>删除  </a>
+						<a href='edit.php?id={$row['id']}'>修改</a></td>";
+						echo "</tr>";
+					}
+					//5、释放结果集
+					mysql_free_result($result);
+					mysql_close($link);
+			
+			?>
+		</table>
+	</center>
+</body>
+</html>
+
+</body>
+
+</html>

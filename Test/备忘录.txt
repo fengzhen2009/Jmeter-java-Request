@@ -1,0 +1,18 @@
+http://imd.edumedia.ca/mars0277/code/grey.jpg
+
+
+<?php
+header("Content-type:text/html;charset=utf-8");
+$filename=$_GET['filename'];
+header("Content-type: application/octet-stream");
+Header("Accept-Length:".$file_size);
+header("Accept-Ranges: bytes");
+header('content-disposition:attachment;filename='.basename($filename));
+header('content-length:'.filesize($filename));
+readfile($filename);
+if(!file_exists($file_path)){
+	echo "没有该文件文件";
+	return ;
+}
+$fp=fopen($file_path,"r");
+$file_size=filesize($file_path);
